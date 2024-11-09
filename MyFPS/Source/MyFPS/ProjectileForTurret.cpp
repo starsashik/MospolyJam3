@@ -46,6 +46,7 @@ void AProjectileForTurret::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActo
 	{
 		Player->CharacterDied();
 	}
+	ShowDestroyVFX();
 	Destroy();
 	//if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) && OtherComp->IsSimulatingPhysics())
 	//{

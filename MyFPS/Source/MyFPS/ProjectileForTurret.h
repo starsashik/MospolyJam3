@@ -15,6 +15,8 @@ public:
 	// Sets default values for this actor's properties
 	AProjectileForTurret();
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void ShowDestroyVFX();
 
 protected:
 	// Called when the game starts or when spawned

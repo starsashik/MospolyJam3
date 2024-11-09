@@ -21,8 +21,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void CharacterDied();
 
-	UFUNCTION(BlueprintCallable)
-	void CharacterStop(bool condition);
 
 protected:
 	// Called when the game starts or when spawned
@@ -41,6 +39,16 @@ protected:
 
 	void AttachCubeByRef(class AEPICCube* cube);
 
+	void ShowDiedUI();
+
+	void StartSitting();
+	void StopSitting();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void DashBP();
+
+	void Dash();
+
 
 private:
 	//CameraSystem
@@ -55,8 +63,6 @@ private:
 	//Character values
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharacterValues, meta = (AllowprivateAccess = "true"))
 	float Speed;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = CharacterValues, meta = (AllowprivateAccess = "true"))
-	AActor* ActorForInteract;
 	FHitResult OutHitResult;
 
 	class AEPICCube* PrevInteractActor;
@@ -68,6 +74,19 @@ private:
 
 	bool IsDisableInput;
 
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Widgets, meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<class UUserWidget> DiedUICLass;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Widgets, meta = (AllowPrivateAccess = "true"))
+	UUserWidget* DiedUI;
+
+	FTimerHandle TimerBeforeDiedUI;
+
+	bool bIsSitting;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Montage, meta = (AllowPrivateAccess = "true"))
+	UAnimMontage* SittingMontage;
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -75,11 +94,14 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	FORCEINLINE void SetActorToInteract(AActor* actor) { ActorForInteract = actor; };
+	FORCEINLINE void SetActorToInteract(class AEPICCube* actor) { ActorToInteract = actor; };
 	FORCEINLINE void SetNearStand(class AStandForCube* standd) { Stand = standd; };
 	UFUNCTION(BlueprintCallable)
-	FORCEINLINE bool GetIsDisableInput() { return IsDisableInput; };
+	FORCEINLINE bool GetIsDisableInput() const { return IsDisableInput; };
 	UFUNCTION(BlueprintCallable)
 	FORCEINLINE void SetIsDisableInput(bool value) { IsDisableInput = value; };
+	
+	UFUNCTION(BlueprintCallable)
+	bool GetSitting() const { return bIsSitting; };
 
 };

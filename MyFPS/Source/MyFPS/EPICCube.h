@@ -24,6 +24,7 @@ protected:
 
 	UFUNCTION()
 	void EndOver(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh, meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* Cube;
@@ -40,6 +41,9 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	void PickUp(bool condition);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void ShowMyWidget(bool condition);
 
 	FORCEINLINE int GetIdColorCube() const { return idColorCube; };
 };
