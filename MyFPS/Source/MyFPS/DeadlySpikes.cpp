@@ -71,7 +71,7 @@ void ADeadlySpikes::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	if (bIsFly)
 	{
-		Spikes->SetWorldLocation(Spikes->GetComponentLocation() + FVector(0.0f, 0.0f, FlySpeed) * DeltaTime * (bFlyDown ? -1.f : 1.f), false);
+		Spikes->SetWorldLocation(Spikes->GetComponentLocation() - FVector(0.0f, 0.0f, FlySpeed) * DeltaTime * (bFlyDown ? -1.f : 1.f), false);
 	}
 }
 
