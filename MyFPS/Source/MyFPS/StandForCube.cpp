@@ -7,8 +7,7 @@
 #include "EPICCube.h"
 
 // Sets default values
-AStandForCube::AStandForCube():
-	NumberOfCube(0)
+AStandForCube::AStandForCube()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -18,36 +17,18 @@ AStandForCube::AStandForCube():
 	CheckCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("CheckCollision"));
 	CheckCollision->SetupAttachment(Stand);
 
-	ForCube0 = CreateDefaultSubobject<USceneComponent>(TEXT("ForCube0"));
-	ForCube0->SetupAttachment(RootComponent);
-	ForCube1 = CreateDefaultSubobject<USceneComponent>(TEXT("ForCube1"));
-	ForCube1->SetupAttachment(RootComponent);
-	ForCube2 = CreateDefaultSubobject<USceneComponent>(TEXT("ForCube2"));
-	ForCube2->SetupAttachment(RootComponent);
+	ForCube = CreateDefaultSubobject<USceneComponent>(TEXT("ForCube0"));
+	ForCube->SetupAttachment(RootComponent);
 }
 
 void AStandForCube::AttachCubeByRef(AEPICCube* cube)
 {
-	if (NumberOfCube < 3)
-	{
-		cube->SetActorScale3D(FVector(1.f, 1.f, 1.f));
-		cube->PickUp(false);
-		if (NumberOfCube == 0)
-		{
-			cube->AttachToComponent(ForCube0, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-		}
-		else if (NumberOfCube == 1)
-		{
-			cube->AttachToComponent(ForCube1, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-		}
-		else if (NumberOfCube == 2)
-		{
-			cube->AttachToComponent(ForCube2, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-		}
-		InteractActors[NumberOfCube] = cube;
-		NumberOfCube += 1;
-	}
+	cube->SetActorScale3D(FVector(0.25f, 0.25f, 0.25f));
+	cube->PickUp(true);
+	cube->AttachToComponent(ForCube, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
+	InteractActor = cube;
 }
+
 
 // Called when the game starts or when spawned
 void AStandForCube::BeginPlay()

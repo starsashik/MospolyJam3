@@ -38,7 +38,6 @@ protected:
 
 
 	void TryToInteract();
-	void TryToUNInteract();
 
 	void AttachCubeByRef(class AEPICCube* cube);
 
@@ -51,12 +50,7 @@ private:
 	class UCameraComponent* FollowCamera;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
-	class USceneComponent* ForCube0;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
-	class USceneComponent* ForCube1;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
-	class USceneComponent* ForCube2;
-
+	class USceneComponent* ForCube;
 
 	//Character values
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharacterValues, meta = (AllowprivateAccess = "true"))
@@ -65,8 +59,7 @@ private:
 	AActor* ActorForInteract;
 	FHitResult OutHitResult;
 
-	int NumberOfInteractActor;
-	class AEPICCube* InteractActors[3];
+	class AEPICCube* PrevInteractActor;
 	class AEPICCube* ActorToInteract;
 
 	class AStandForCube* Stand;

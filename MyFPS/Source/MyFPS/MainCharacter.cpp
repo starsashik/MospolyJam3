@@ -15,8 +15,7 @@
 // Sets default values
 AMainCharacter::AMainCharacter() :
 	bIsLive(true),
-	IsDisableInput(false),
-	NumberOfInteractActor(0)
+	IsDisableInput(false)
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -34,13 +33,8 @@ AMainCharacter::AMainCharacter() :
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
 
-	ForCube0 = CreateDefaultSubobject<USceneComponent>(TEXT("ForCube0"));
-	ForCube0->SetupAttachment(RootComponent);
-	ForCube1 = CreateDefaultSubobject<USceneComponent>(TEXT("ForCube1"));
-	ForCube1->SetupAttachment(RootComponent);
-	ForCube2 = CreateDefaultSubobject<USceneComponent>(TEXT("ForCube2"));
-	ForCube2->SetupAttachment(RootComponent);
-
+	ForCube = CreateDefaultSubobject<USceneComponent>(TEXT("ForCube"));
+	ForCube->SetupAttachment(RootComponent);
 }
 
 void AMainCharacter::CharacterDied()
@@ -107,7 +101,7 @@ void AMainCharacter::CalculateCharacterValues(float DeltaTime)
 {
 	FVector XYspeed{ GetVelocity() };
 	XYspeed.Z = 0;
-	Speed = XYspeed.Size();
+	Speed = XYspeed.Size() / 10.f;
 }
 
 void AMainCharacter::CalculateCameraPosition(float DeltaTime)
@@ -116,13 +110,20 @@ void AMainCharacter::CalculateCameraPosition(float DeltaTime)
 
 void AMainCharacter::TryToInteract()
 {
-	GetWorld()->LineTraceSingleByChannel(OutHitResult, this->GetActorLocation() + this->GetActorForwardVector() * 10.f, this->GetActorLocation() + this->GetActorForwardVector() * 200.f, ECollisionChannel::ECC_Visibility);
-	DrawDebugLine(GetWorld(), this->GetActorLocation() + this->GetActorForwardVector() * 10.f, this->GetActorLocation() + this->GetActorForwardVector() * 200.f, FColor::Cyan, false, 3.f);
-	if (OutHitResult.bBlockingHit) {
-		ActorToInteract = Cast<AEPICCube>(OutHitResult.GetActor());
-		if (ActorToInteract) {
-			AttachCubeByRef(ActorToInteract);
+	if (Stand != nullptr)
+	{
+		if (PrevInteractActor != nullptr)
+		{
+
 		}
+		auto StandCube = Cast<AEPICCube>(Stand->GetInteractActor());
+		if (StandCube)
+		{
+			StandCube->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+			StandCube->SetActorTransform(PrevInteractActor->GetActorTransform());
+			StandCube->PickUp(false);
+		}
+
 	}
 	if (ActorForInteract != nullptr)
 	{
@@ -133,38 +134,19 @@ void AMainCharacter::TryToInteract()
 	}
 }
 
-void AMainCharacter::TryToUNInteract()
-{
-	if (Stand != nullptr && NumberOfInteractActor > 0)
-	{
-		if (Stand)
-		{
-
-		}
-	}
-}
-
 void AMainCharacter::AttachCubeByRef(AEPICCube* cube)
 {
-	if (NumberOfInteractActor < 3)
+	if (PrevInteractActor != nullptr)
 	{
-		cube->SetActorScale3D(FVector(0.25f, 0.25f, 0.25f));
-		cube->PickUp(true);
-		if (NumberOfInteractActor == 0)
-		{
-			cube->AttachToComponent(ForCube0, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-		}
-		else if (NumberOfInteractActor == 1)
-		{
-			cube->AttachToComponent(ForCube1, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-		}
-		else if (NumberOfInteractActor == 2)
-		{
-			cube->AttachToComponent(ForCube2, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-		}
-		InteractActors[NumberOfInteractActor] = cube;
-		NumberOfInteractActor += 1;
+		PrevInteractActor->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+		PrevInteractActor->SetActorTransform(cube->GetActorTransform());
+		PrevInteractActor->PickUp(false);
 	}
+	cube->SetActorScale3D(FVector(0.25f, 0.25f, 0.25f));
+	cube->PickUp(true);
+	cube->AttachToComponent(ForCube, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
+
+	PrevInteractActor = cube;
 }
 
 // Called every frame
@@ -184,7 +166,6 @@ void AMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMainCharacter::MoveForward);
 
 	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &AMainCharacter::TryToInteract);
-	PlayerInputComponent->BindAction("UnInteract", IE_Pressed, this, &AMainCharacter::TryToUNInteract);
 	//PlayerInputComponent->BindAction("Interact", IE_Released, this, &AMainCharacter::StopInteract);
 }
 

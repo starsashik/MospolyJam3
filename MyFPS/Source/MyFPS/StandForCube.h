@@ -34,18 +34,13 @@ private:
 	class UBoxComponent* CheckCollision;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
-	class USceneComponent* ForCube0;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
-	class USceneComponent* ForCube1;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
-	class USceneComponent* ForCube2;
+	class USceneComponent* ForCube;
 
-
-	int NumberOfCube;
-	class AEPICCube* InteractActors[3];
+	class AEPICCube* InteractActor;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	FORCEINLINE int GetNumber() const { return NumberOfCube; };
+	FORCEINLINE class AEPICCube* GetInteractActor() const { return InteractActor; };
+	FORCEINLINE void DetachCubeByRef() { InteractActor = nullptr; };
 };
