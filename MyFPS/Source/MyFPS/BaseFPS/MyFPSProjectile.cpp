@@ -4,6 +4,7 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
 
+
 AMyFPSProjectile::AMyFPSProjectile() 
 {
 	// Use a sphere as a simple collision representation
