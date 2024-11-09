@@ -11,6 +11,8 @@
 #include "Components/CapsuleComponent.h"
 #include "EPICCube.h"
 #include "StandForCube.h"
+#include "MainGameModeBase.h"
+#include "Blueprint/UserWidget.h"
 
 // Sets default values
 AMainCharacter::AMainCharacter() :
@@ -47,7 +49,6 @@ void AMainCharacter::CharacterDied()
 		SetIsDisableInput(true);//отключаем управление
 
 		if (UCapsuleComponent* CapsuleComp = GetCapsuleComponent()) {
-			CapsuleComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 			CapsuleComp->SetGenerateOverlapEvents(false);
 		}
 
@@ -55,12 +56,9 @@ void AMainCharacter::CharacterDied()
 		APlayerCameraManager* CameraManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
 		CameraManager->StartCameraFade(0.f, 1.f, 3.f, FColor::Black, false, true);//включаем тень на камере
 		FollowCamera->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
-	}
-}
 
-void AMainCharacter::CharacterStop(bool condition)
-{
-	(condition) ? GetCharacterMovement()->DisableMovement() : GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Walking);
+		GetWorldTimerManager().SetTimer(TimerBeforeDiedUI, this, &AMainCharacter::ShowDiedUI, 3.3f);
+	}
 }
 
 // Called when the game starts or when spawned
@@ -112,25 +110,31 @@ void AMainCharacter::TryToInteract()
 {
 	if (Stand != nullptr)
 	{
+		auto StandCube = Cast<AEPICCube>(Stand->GetInteractActor());
+		bool proverka = false;
 		if (PrevInteractActor != nullptr)
 		{
-
+			PrevInteractActor->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+			Stand->AttachCubeByRef(PrevInteractActor);
+			PrevInteractActor = nullptr;
+			GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, TEXT("-1"));
+			proverka = true;
 		}
-		auto StandCube = Cast<AEPICCube>(Stand->GetInteractActor());
 		if (StandCube)
 		{
+			GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Green, TEXT("+1"));
 			StandCube->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
-			StandCube->SetActorTransform(PrevInteractActor->GetActorTransform());
-			StandCube->PickUp(false);
+			AttachCubeByRef(StandCube);	
+			if (!proverka)
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Green, TEXT("!="));
+				Stand->DetachCubeByRef();
+			}
 		}
-
 	}
-	if (ActorForInteract != nullptr)
+	else if (ActorToInteract != nullptr)
 	{
-		ActorToInteract = Cast<AEPICCube>(ActorForInteract);
-		if (ActorToInteract) {
-			AttachCubeByRef(ActorToInteract);
-		}
+		AttachCubeByRef(ActorToInteract);
 	}
 }
 
@@ -145,8 +149,51 @@ void AMainCharacter::AttachCubeByRef(AEPICCube* cube)
 	cube->SetActorScale3D(FVector(0.25f, 0.25f, 0.25f));
 	cube->PickUp(true);
 	cube->AttachToComponent(ForCube, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-
+	ActorToInteract = PrevInteractActor;
 	PrevInteractActor = cube;
+	if (ActorToInteract != nullptr)
+	{
+		ActorToInteract->ShowMyWidget(true);
+	}
+}
+
+void AMainCharacter::ShowDiedUI()
+{
+	auto MyGameMode = Cast<AMainGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	MyGameMode->MyPauseGame(1);
+	if (DiedUICLass) {
+		APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
+		DiedUI = CreateWidget<UUserWidget>(PlayerController, DiedUICLass);
+		if (DiedUI) {
+			DiedUI->AddToViewport();
+			DiedUI->SetVisibility(ESlateVisibility::Visible);
+		}
+	}
+}
+
+void AMainCharacter::StartSitting()
+{
+	bIsSitting = true;
+
+	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+	if (AnimInstance && SittingMontage) {
+		AnimInstance->Montage_Play(SittingMontage);
+		AnimInstance->Montage_JumpToSection(FName("Teleport"));
+	}
+
+	SetIsDisableInput(true);
+}
+
+void AMainCharacter::StopSitting()
+{
+	bIsSitting = false;
+
+	SetIsDisableInput(false);
+}
+
+void AMainCharacter::Dash()
+{
+	DashBP();
 }
 
 // Called every frame
@@ -166,6 +213,11 @@ void AMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMainCharacter::MoveForward);
 
 	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &AMainCharacter::TryToInteract);
-	//PlayerInputComponent->BindAction("Interact", IE_Released, this, &AMainCharacter::StopInteract);
+
+	PlayerInputComponent->BindAction("Sitting", IE_Pressed, this, &AMainCharacter::StartSitting);
+	PlayerInputComponent->BindAction("Sitting", IE_Released, this, &AMainCharacter::StopSitting);
+
+	PlayerInputComponent->BindAction("Dash", IE_Pressed, this, &AMainCharacter::Dash);
+	
 }
 

@@ -19,6 +19,8 @@ public:
 
 	void PauseBeforeFlyDown();
 
+	void StartForReverse();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -45,10 +47,14 @@ private:
 
 	FTimerHandle FlyDownTimer;
 	FTimerHandle BeforeFlyDownTimer;
+	FTimerHandle TimerReverse;
 
 	bool bFlyDown;
 
 	bool bIsEnabled;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SpikeParametr", meta = (AllowPrivateAccess = "true"))
+	bool bReverse;
 
 public:	
 	// Called every frame

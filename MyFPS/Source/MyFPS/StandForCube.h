@@ -41,6 +41,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void ShowMyWidget(bool condition);
+
 	FORCEINLINE class AEPICCube* GetInteractActor() const { return InteractActor; };
 	FORCEINLINE void DetachCubeByRef() { InteractActor = nullptr; };
 };

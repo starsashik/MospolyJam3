@@ -12,7 +12,8 @@ ADeadlySpikes::ADeadlySpikes() :
 	PauseTime(5.f),
 	FlySpeed(20.f),
 	bFlyDown(false),
-	bIsEnabled(true)
+	bIsEnabled(true),
+	bReverse(false)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -39,6 +40,12 @@ void ADeadlySpikes::PauseBeforeFlyDown()
 	GetWorldTimerManager().ClearTimer(FlyDownTimer);
 	GetWorldTimerManager().SetTimer(FlyDownTimer, this, &ADeadlySpikes::Fly, PauseTime);
 }
+void ADeadlySpikes::StartForReverse()
+{
+	bIsFly = true;
+	bFlyDown = false;
+	GetWorldTimerManager().SetTimer(BeforeFlyDownTimer, this, &ADeadlySpikes::PauseBeforeFlyDown, FlyTime);
+}
 // Called when the game starts or when spawned
 void ADeadlySpikes::BeginPlay()
 {
@@ -46,9 +53,16 @@ void ADeadlySpikes::BeginPlay()
 	SpikeCollision->OnComponentBeginOverlap.AddDynamic(this, &ADeadlySpikes::CheckPlayerDie);
 	SpikeCollision->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 
-	bIsFly = true;
-	bFlyDown = false;
-	GetWorldTimerManager().SetTimer(BeforeFlyDownTimer, this, &ADeadlySpikes::PauseBeforeFlyDown, FlyTime);
+	if (bReverse)
+	{
+		GetWorldTimerManager().SetTimer(TimerReverse, this, &ADeadlySpikes::StartForReverse, PauseTime + FlyTime);
+	}
+	else
+	{
+		bIsFly = true;
+		bFlyDown = false;
+		GetWorldTimerManager().SetTimer(BeforeFlyDownTimer, this, &ADeadlySpikes::PauseBeforeFlyDown, FlyTime);
+	}
 }
 
 void ADeadlySpikes::CheckPlayerDie(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

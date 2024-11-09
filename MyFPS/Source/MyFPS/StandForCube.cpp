@@ -45,7 +45,7 @@ void AStandForCube::BeginOver(UPrimitiveComponent* OverlappedComponent, AActor* 
 	if (Player)
 	{
 		Player->SetNearStand(this);
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Black, TEXT("123123"));
+		ShowMyWidget(true);
 	}
 }
 
@@ -55,7 +55,7 @@ void AStandForCube::EndOver(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 	if (Player)
 	{
 		Player->SetNearStand(nullptr);
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Black, TEXT("123123"));
+		ShowMyWidget(false);
 	}
 }
 

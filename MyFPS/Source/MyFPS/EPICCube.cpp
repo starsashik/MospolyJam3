@@ -35,7 +35,7 @@ void AEPICCube::BeginOver(UPrimitiveComponent* OverlappedComponent, AActor* Othe
 		if (Player)
 		{
 			Player->SetActorToInteract(this);
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Black, TEXT("123123"));
+			ShowMyWidget(true);
 		}
 	}
 }
@@ -48,6 +48,7 @@ void AEPICCube::EndOver(UPrimitiveComponent* OverlappedComponent, AActor* OtherA
 		if (Player)
 		{
 			Player->SetActorToInteract(nullptr);
+			ShowMyWidget(false);
 		}
 	}
 }
