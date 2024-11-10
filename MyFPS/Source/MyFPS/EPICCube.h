@@ -33,8 +33,6 @@ private:
 
 	bool bPickUp;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh, meta = (AllowPrivateAccess = "true"))
-	int idColorCube;
 
 public:	
 	// Called every frame
@@ -44,6 +42,4 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void ShowMyWidget(bool condition);
-
-	FORCEINLINE int GetIdColorCube() const { return idColorCube; };
 };

@@ -17,6 +17,7 @@ public:
 
 	void Fly();
 
+	UFUNCTION()
 	void PauseBeforeFlyDown();
 
 	void StartForReverse();
@@ -35,26 +36,27 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh, meta = (AllowPrivateAccess = "true"))
 	class UBoxComponent* SpikeCollision;
 
-
-	bool bIsFly;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SpikeParametr", meta = (AllowPrivateAccess = "true"))
 	float FlyTime;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SpikeParametr", meta = (AllowPrivateAccess = "true"))
 	float PauseTime;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SpikeParametr", meta = (AllowPrivateAccess = "true"))
-	float FlySpeed;
-
 	FTimerHandle FlyDownTimer;
 	FTimerHandle BeforeFlyDownTimer;
 	FTimerHandle TimerReverse;
 
-	bool bFlyDown;
+	FVector InitialLocation;
 
-	bool bIsEnabled;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SpikeParametr", meta = (AllowPrivateAccess = "true"))
+	FVector DeltaLocation;
+
+	bool bFlyDown;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SpikeParametr", meta = (AllowPrivateAccess = "true"))
 	bool bReverse;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh, meta = (AllowprivateAccess = "true"))
+	USoundBase* SpikeSound;
 
 public:	
 	// Called every frame
