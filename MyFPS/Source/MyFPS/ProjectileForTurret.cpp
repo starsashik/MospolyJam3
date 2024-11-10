@@ -5,6 +5,7 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
 #include "MainCharacter.h"
+#include "DeadlySpikes.h"
 
 // Sets default values
 AProjectileForTurret::AProjectileForTurret()
@@ -41,7 +42,8 @@ void AProjectileForTurret::BeginPlay()
 
 void AProjectileForTurret::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	if (OtherActor != this)
+	auto spike = Cast<ADeadlySpikes>(OtherActor);
+	if (OtherActor != this && !spike)
 	{
 		auto Player = Cast<AMainCharacter>(OtherActor);
 		if (Player)
