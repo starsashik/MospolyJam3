@@ -8,7 +8,6 @@
 UMyMainSaveGame::UMyMainSaveGame()
 {
 	PlayerLoc = FVector(0.f, 0.f, 0.f);
-	bIsNewGame = true;
 	bAlreadyStart = false;
 
 	IdCheckPointMap1 = 0;
@@ -25,6 +24,8 @@ UMyMainSaveGame::UMyMainSaveGame()
 
 	Collectables.Init(false, 10);
 	Upgrade = 0;
+
+	CurrentMap = 0;
 }
 
 
@@ -42,6 +43,7 @@ void UMyMainSaveGame::ClearForNewGame()
 
 	Collectables.Init(false, 10);
 	Upgrade = 0;
+	CurrentMap = 0;
 
 	UGameplayStatics::SaveGameToSlot(this, TEXT("MainSave"), 0);
 }

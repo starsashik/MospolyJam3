@@ -17,9 +17,6 @@ public:
 	UMyMainSaveGame();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	bool bIsNewGame;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bAlreadyStart;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -48,6 +45,9 @@ public:
 	bool CompleteMap2;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool CompleteMap3;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int CurrentMap;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int Upgrade;

@@ -23,7 +23,7 @@ protected:
 
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh, meta = (AllowPrivateAccess = "true"))
-	class UStaticMeshComponent* Turret;
+	class USkeletalMeshComponent* Turret;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh, meta = (AllowprivateAccess = "true"))
 	TSubclassOf<class AProjectileForTurret> ProjectileClass;
