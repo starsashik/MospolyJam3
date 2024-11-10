@@ -28,6 +28,8 @@ void UMainAnimInstance::UpdateAnimationProperties(float DeltaTime)
 		else {
 			bIsAccelerating = false;
 		}
+
+		bIsSitting = MainCharacter->GetSitting();
 	}
 }
 
