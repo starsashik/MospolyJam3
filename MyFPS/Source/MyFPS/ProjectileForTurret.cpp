@@ -41,13 +41,16 @@ void AProjectileForTurret::BeginPlay()
 
 void AProjectileForTurret::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	auto Player = Cast<AMainCharacter>(OtherActor);
-	if (Player)
+	if (OtherActor != this)
 	{
-		Player->CharacterDied();
+		auto Player = Cast<AMainCharacter>(OtherActor);
+		if (Player)
+		{
+			Player->CharacterDied();
+		}
+		ShowDestroyVFX();
+		Destroy();
 	}
-	ShowDestroyVFX();
-	Destroy();
 	//if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) && OtherComp->IsSimulatingPhysics())
 	//{
 	//	OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());

@@ -16,13 +16,16 @@ public:
 	ADeadlyTurret();
 
 	void Fire();
+	
+	UFUNCTION(BlueprintImplementableEvent)
+	void PlayFireAnim();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 private:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = Mesh, meta = (AllowPrivateAccess = "true"))
 	class USkeletalMeshComponent* Turret;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh, meta = (AllowprivateAccess = "true"))

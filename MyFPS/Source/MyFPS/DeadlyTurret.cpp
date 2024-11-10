@@ -4,6 +4,7 @@
 #include "DeadlyTurret.h"
 #include "ProjectileForTurret.h"
 #include "Kismet/GameplayStatics.h"
+#include "Components/SkeletalMeshComponent.h"
 
 // Sets default values
 ADeadlyTurret::ADeadlyTurret():
@@ -11,10 +12,10 @@ ADeadlyTurret::ADeadlyTurret():
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	Turret = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Turret"));
-	SetRootComponent(Turret);
+	Turret = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Turrets"));
+	Turret->SetupAttachment(RootComponent);
 	ForBullet = CreateDefaultSubobject<USceneComponent>(TEXT("ForBullet"));
-	ForBullet->SetupAttachment(RootComponent);
+	ForBullet->SetupAttachment(Turret);
 }
 
 void ADeadlyTurret::Fire()
@@ -42,6 +43,7 @@ void ADeadlyTurret::Fire()
 	{
 		UGameplayStatics::PlaySoundAtLocation(this, FireSound, Turret->GetComponentLocation());
 	}
+	PlayFireAnim();
 }
 
 // Called when the game starts or when spawned
