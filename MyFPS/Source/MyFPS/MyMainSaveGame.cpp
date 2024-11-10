@@ -7,23 +7,44 @@
 
 UMyMainSaveGame::UMyMainSaveGame()
 {
-	Money = 0;
+
 	PlayerLoc = FVector(0.f, 0.f, 0.f);
 	PlayerRotation = FRotator(0.f, 0.f, 0.f);
 	bIsNewGame = true;
 	bAlreadyStart = false;
+
+	IdCheckPointMap1 = 0;
+	IdCheckPointMap2 = 0;
+	IdCheckPointMap3 = 0;
+
+	CompleteMap1 = false;
+	CompleteMap2 = false;
+	CompleteMap3 = false;
+
+	LocationCheckPointMap1 = { FVector(650.f,-430.f,362.f), FVector(670.f,-170.f,150.f), FVector(-600.f,-370.f,150.f) };
+	LocationCheckPointMap2 = { FVector(0.f,0.f,120.f) };
+	LocationCheckPointMap3 = { FVector(0.f,0.f,120.f) };
+
+	Collectables.Init(false, 10);
+	Upgrade = 0;
 }
 
-void UMyMainSaveGame::SaveBeforeQuit()
-{
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Black, TEXT("SaveFunc"));
-	UGameplayStatics::SaveGameToSlot(this, TEXT("MainSave"), 0);
-}
 
 void UMyMainSaveGame::ClearForNewGame()
 {
 	PlayerLoc = FVector(0.f, 0.f, 0.f);
 	PlayerRotation = FRotator(0.f, 0.f, 0.f);
-	Money = 0;
+
+	IdCheckPointMap1 = 0;
+	IdCheckPointMap2 = 0;
+	IdCheckPointMap3 = 0;
+
+	CompleteMap1 = false;
+	CompleteMap2 = false;
+	CompleteMap3 = false;
+
+	Collectables.Init(false, 10);
+	Upgrade = 0;
+
 	UGameplayStatics::SaveGameToSlot(this, TEXT("MainSave"), 0);
 }

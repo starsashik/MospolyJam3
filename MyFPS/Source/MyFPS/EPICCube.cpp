@@ -7,8 +7,7 @@
 
 // Sets default values
 AEPICCube::AEPICCube():
-	bPickUp(false),
-	idColorCube(0)
+	bPickUp(false)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -29,28 +28,28 @@ void AEPICCube::BeginPlay()
 
 void AEPICCube::BeginOver(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (!bPickUp)
-	{
-		auto Player = Cast<AMainCharacter>(OtherActor);
-		if (Player)
-		{
-			Player->SetActorToInteract(this);
-			ShowMyWidget(true);
-		}
-	}
+	//if (!bPickUp)
+	//{
+	//	auto Player = Cast<AMainCharacter>(OtherActor);
+	//	if (Player)
+	//	{
+	//		Player->SetActorToInteract(this);
+	//		ShowMyWidget(true);
+	//	}
+	//}
 }
 
 void AEPICCube::EndOver(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	if (!bPickUp)
-	{
-		auto Player = Cast<AMainCharacter>(OtherActor);
-		if (Player)
-		{
-			Player->SetActorToInteract(nullptr);
-			ShowMyWidget(false);
-		}
-	}
+	//if (!bPickUp)
+	//{
+	//	auto Player = Cast<AMainCharacter>(OtherActor);
+	//	if (Player)
+	//	{
+	//		Player->SetActorToInteract(nullptr);
+	//		ShowMyWidget(false);
+	//	}
+	//}
 }
 
 // Called every frame

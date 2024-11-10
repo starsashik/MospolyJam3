@@ -87,6 +87,11 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Montage, meta = (AllowPrivateAccess = "true"))
 	UAnimMontage* SittingMontage;
 
+	APlayerController* PlayerControler;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh, meta = (AllowprivateAccess = "true"))
+	USoundBase* DieSound;
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

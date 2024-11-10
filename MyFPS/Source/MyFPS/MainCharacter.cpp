@@ -58,6 +58,11 @@ void AMainCharacter::CharacterDied()
 		FollowCamera->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
 
 		GetWorldTimerManager().SetTimer(TimerBeforeDiedUI, this, &AMainCharacter::ShowDiedUI, 3.3f);
+
+		if (DieSound != nullptr)
+		{
+			UGameplayStatics::PlaySound2D(this, DieSound);
+		}
 	}
 }
 
@@ -65,7 +70,7 @@ void AMainCharacter::CharacterDied()
 void AMainCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	PlayerControler = Cast<APlayerController>(GetController());
 }
 
 void AMainCharacter::MoveRight(float Value)
@@ -202,6 +207,11 @@ void AMainCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	CalculateCharacterValues(DeltaTime);
 	CalculateCameraPosition(DeltaTime);
+
+	if (PlayerControler)
+	{
+		PlayerControler->SetAudioListenerOverride(GetMesh(), FVector(0, 0, 0), GetActorRotation());
+	}
 }
 
 // Called to bind functionality to input
@@ -212,12 +222,11 @@ void AMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMainCharacter::MoveRight);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMainCharacter::MoveForward);
 
-	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &AMainCharacter::TryToInteract);
+	//PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &AMainCharacter::TryToInteract);
 
 	PlayerInputComponent->BindAction("Sitting", IE_Pressed, this, &AMainCharacter::StartSitting);
 	PlayerInputComponent->BindAction("Sitting", IE_Released, this, &AMainCharacter::StopSitting);
 
-	PlayerInputComponent->BindAction("Dash", IE_Pressed, this, &AMainCharacter::Dash);
-	
+	//PlayerInputComponent->BindAction("Dash", IE_Pressed, this, &AMainCharacter::Dash);
 }
 
