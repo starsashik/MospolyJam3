@@ -5,7 +5,6 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
 #include "MainCharacter.h"
-#include "DeadlySpikes.h"
 
 // Sets default values
 AProjectileForTurret::AProjectileForTurret()
@@ -42,17 +41,14 @@ void AProjectileForTurret::BeginPlay()
 
 void AProjectileForTurret::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	auto spike = Cast<ADeadlySpikes>(OtherActor);
-	if (OtherActor != this && !spike)
+	auto Player = Cast<AMainCharacter>(OtherActor);
+	if (Player)
 	{
-		auto Player = Cast<AMainCharacter>(OtherActor);
-		if (Player)
-		{
-			Player->CharacterDied();
-		}
-		ShowDestroyVFX();
-		Destroy();
+		Player->CharacterDied();
+		Player->GetMesh()->AddImpulse(CollisionComp->GetForwardVector() * 400.f, NAME_None, true);
 	}
+	ShowDestroyVFX();
+	Destroy();
 	//if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) && OtherComp->IsSimulatingPhysics())
 	//{
 	//	OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());

@@ -84,7 +84,7 @@ private:
 
 	bool bIsSitting;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Montage, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Montage, meta = (AllowPrivateAccess = "true"))
 	UAnimMontage* SittingMontage;
 
 	APlayerController* PlayerControler;
