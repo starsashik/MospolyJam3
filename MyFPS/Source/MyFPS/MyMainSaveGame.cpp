@@ -7,9 +7,7 @@
 
 UMyMainSaveGame::UMyMainSaveGame()
 {
-
 	PlayerLoc = FVector(0.f, 0.f, 0.f);
-	PlayerRotation = FRotator(0.f, 0.f, 0.f);
 	bIsNewGame = true;
 	bAlreadyStart = false;
 
@@ -33,7 +31,6 @@ UMyMainSaveGame::UMyMainSaveGame()
 void UMyMainSaveGame::ClearForNewGame()
 {
 	PlayerLoc = FVector(0.f, 0.f, 0.f);
-	PlayerRotation = FRotator(0.f, 0.f, 0.f);
 
 	IdCheckPointMap1 = 0;
 	IdCheckPointMap2 = 0;

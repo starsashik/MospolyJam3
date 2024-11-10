@@ -92,6 +92,8 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh, meta = (AllowprivateAccess = "true"))
 	USoundBase* DieSound;
 
+
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

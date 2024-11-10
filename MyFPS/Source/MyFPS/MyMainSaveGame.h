@@ -24,8 +24,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FVector PlayerLoc;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FRotator PlayerRotation;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<FVector> LocationCheckPointMap1;
