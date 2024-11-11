@@ -44,23 +44,18 @@ void AMainCharacter::CharacterDied()
 	if (bIsLive)
 	{
 		bIsLive = false;
-		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Yellow, TEXT("U Died"));//возможно сделать какое-нибудь уведомление
-		GetMesh()->SetSimulatePhysics(true);//включаем физику у перса
-		SetIsDisableInput(true);//отключаем управление
-
-		if (UCapsuleComponent* CapsuleComp = GetCapsuleComponent()) {
-			CapsuleComp->SetGenerateOverlapEvents(false);
-		}
-		//APlayerCameraManager* CameraManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
-		//CameraManager->StartCameraFade(0.f, 1.f, 3.f, FColor::Black, false, true);//включаем тень на камере
-		//FollowCamera->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
-
-		//GetWorldTimerManager().SetTimer(TimerBeforeDiedUI, this, &AMainCharacter::ShowDiedUI, 3.3f);
-
+		GetMesh()->SetSimulatePhysics(true);
+		SetIsDisableInput(true);
 		if (DieSound != nullptr)
 		{
 			UGameplayStatics::PlaySound2D(this, DieSound);
 		}
+
+		if (UCapsuleComponent* CapsuleComp = GetCapsuleComponent()) {
+			CapsuleComp->SetGenerateOverlapEvents(false);
+		}
+
+		OpenMir();
 	}
 }
 

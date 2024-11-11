@@ -21,6 +21,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void CharacterDied();
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void OpenMir();
+
 
 protected:
 	// Called when the game starts or when spawned
