@@ -44,25 +44,18 @@ void AMainCharacter::CharacterDied()
 	if (bIsLive)
 	{
 		bIsLive = false;
-		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Yellow, TEXT("U Died"));//возможно сделать какое-нибудь уведомление
-		GetMesh()->SetSimulatePhysics(true);//включаем физику у перса
-		SetIsDisableInput(true);//отключаем управление
+		GetMesh()->SetSimulatePhysics(true);
+		SetIsDisableInput(true);
+		if (DieSound != nullptr)
+		{
+			UGameplayStatics::PlaySound2D(this, DieSound);
+		}
 
 		if (UCapsuleComponent* CapsuleComp = GetCapsuleComponent()) {
 			CapsuleComp->SetGenerateOverlapEvents(false);
 		}
 
-		//LoadSaveDeath();
-		APlayerCameraManager* CameraManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
-		CameraManager->StartCameraFade(0.f, 1.f, 3.f, FColor::Black, false, true);//включаем тень на камере
-		FollowCamera->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
-
-		GetWorldTimerManager().SetTimer(TimerBeforeDiedUI, this, &AMainCharacter::ShowDiedUI, 3.3f);
-
-		if (DieSound != nullptr)
-		{
-			UGameplayStatics::PlaySound2D(this, DieSound);
-		}
+		OpenMir();
 	}
 }
 
@@ -164,7 +157,7 @@ void AMainCharacter::AttachCubeByRef(AEPICCube* cube)
 
 void AMainCharacter::ShowDiedUI()
 {
-	auto MyGameMode = Cast<AMainGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	/*auto MyGameMode = Cast<AMainGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	MyGameMode->MyPauseGame(1);
 	if (DiedUICLass) {
 		APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
@@ -173,7 +166,7 @@ void AMainCharacter::ShowDiedUI()
 			DiedUI->AddToViewport();
 			DiedUI->SetVisibility(ESlateVisibility::Visible);
 		}
-	}
+	}*/
 }
 
 void AMainCharacter::StartSitting()
