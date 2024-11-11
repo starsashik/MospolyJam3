@@ -51,13 +51,11 @@ void AMainCharacter::CharacterDied()
 		if (UCapsuleComponent* CapsuleComp = GetCapsuleComponent()) {
 			CapsuleComp->SetGenerateOverlapEvents(false);
 		}
+		//APlayerCameraManager* CameraManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
+		//CameraManager->StartCameraFade(0.f, 1.f, 3.f, FColor::Black, false, true);//включаем тень на камере
+		//FollowCamera->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
 
-		//LoadSaveDeath();
-		APlayerCameraManager* CameraManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
-		CameraManager->StartCameraFade(0.f, 1.f, 3.f, FColor::Black, false, true);//включаем тень на камере
-		FollowCamera->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
-
-		GetWorldTimerManager().SetTimer(TimerBeforeDiedUI, this, &AMainCharacter::ShowDiedUI, 3.3f);
+		//GetWorldTimerManager().SetTimer(TimerBeforeDiedUI, this, &AMainCharacter::ShowDiedUI, 3.3f);
 
 		if (DieSound != nullptr)
 		{
@@ -164,7 +162,7 @@ void AMainCharacter::AttachCubeByRef(AEPICCube* cube)
 
 void AMainCharacter::ShowDiedUI()
 {
-	auto MyGameMode = Cast<AMainGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	/*auto MyGameMode = Cast<AMainGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	MyGameMode->MyPauseGame(1);
 	if (DiedUICLass) {
 		APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
@@ -173,7 +171,7 @@ void AMainCharacter::ShowDiedUI()
 			DiedUI->AddToViewport();
 			DiedUI->SetVisibility(ESlateVisibility::Visible);
 		}
-	}
+	}*/
 }
 
 void AMainCharacter::StartSitting()
