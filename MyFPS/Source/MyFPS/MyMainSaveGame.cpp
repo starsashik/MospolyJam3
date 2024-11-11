@@ -22,9 +22,10 @@ UMyMainSaveGame::UMyMainSaveGame()
 	LocationCheckPointMap2 = { FVector(0.f,0.f,120.f) };
 	LocationCheckPointMap3 = { FVector(0.f,0.f,120.f) };
 
-	Collectables.Init(false, 10);
+	Collectables.Init(false, 6);
+	CircleOut = 1;
+	CircleIn = 1;
 	Upgrade = 0;
-
 	CurrentMap = 0;
 }
 
@@ -41,7 +42,9 @@ void UMyMainSaveGame::ClearForNewGame()
 	CompleteMap2 = false;
 	CompleteMap3 = false;
 
-	Collectables.Init(false, 10);
+	Collectables.Init(false, 6);
+	CircleOut = 1;
+	CircleIn = 1;
 	Upgrade = 0;
 	CurrentMap = 0;
 

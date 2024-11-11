@@ -192,7 +192,6 @@ void AMainCharacter::StartSitting()
 void AMainCharacter::StopSitting()
 {
 	bIsSitting = false;
-
 	SetIsDisableInput(false);
 }
 

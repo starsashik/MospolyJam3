@@ -50,6 +50,12 @@ public:
 	int CurrentMap;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int CircleOut;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int CircleIn;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int Upgrade;
 
 	UFUNCTION(BlueprintCallable)

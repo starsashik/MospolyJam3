@@ -42,6 +42,8 @@ protected:
 	void ShowDiedUI();
 
 	void StartSitting();
+	
+	UFUNCTION(BlueprintCallable)
 	void StopSitting();
 
 	UFUNCTION(BlueprintImplementableEvent)
