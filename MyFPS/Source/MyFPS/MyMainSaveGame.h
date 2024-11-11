@@ -23,13 +23,6 @@ public:
 	FVector PlayerLoc;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<FVector> LocationCheckPointMap1;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<FVector> LocationCheckPointMap2;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<FVector> LocationCheckPointMap3;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int IdCheckPointMap1;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int IdCheckPointMap2;

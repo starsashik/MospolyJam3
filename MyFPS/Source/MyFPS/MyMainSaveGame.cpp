@@ -18,10 +18,6 @@ UMyMainSaveGame::UMyMainSaveGame()
 	CompleteMap2 = false;
 	CompleteMap3 = false;
 
-	LocationCheckPointMap1 = { FVector(650.f,-430.f,362.f), FVector(670.f,-170.f,150.f), FVector(-600.f,-370.f,150.f) };
-	LocationCheckPointMap2 = { FVector(0.f,0.f,120.f) };
-	LocationCheckPointMap3 = { FVector(0.f,0.f,120.f) };
-
 	Collectables.Init(false, 6);
 	CircleOut = 1;
 	CircleIn = 1;
