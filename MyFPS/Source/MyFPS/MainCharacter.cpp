@@ -44,15 +44,10 @@ void AMainCharacter::CharacterDied()
 	if (bIsLive)
 	{
 		bIsLive = false;
-		GetMesh()->SetSimulatePhysics(true);
 		SetIsDisableInput(true);
 		if (DieSound != nullptr)
 		{
 			UGameplayStatics::PlaySound2D(this, DieSound);
-		}
-
-		if (UCapsuleComponent* CapsuleComp = GetCapsuleComponent()) {
-			CapsuleComp->SetGenerateOverlapEvents(false);
 		}
 
 		OpenMir();
