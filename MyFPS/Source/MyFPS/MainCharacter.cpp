@@ -197,7 +197,7 @@ void AMainCharacter::Tick(float DeltaTime)
 
 	if (PlayerControler)
 	{
-		PlayerControler->SetAudioListenerOverride(GetMesh(), FVector(0, 0, 0), GetActorRotation());
+		PlayerControler->SetAudioListenerOverride(GetMesh(), FVector(0, 0, 0), FRotator(0.f, 0.f, 0.f));
 	}
 }
 
