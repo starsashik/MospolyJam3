@@ -32,7 +32,7 @@ void AHighlightImprovements::BeginPlay()
 		Mesh->SetMaterial(0, MyMaterial);
 	}
 	UMyMainSaveGame* SaveInst = Cast<UMyMainSaveGame>(UGameplayStatics::LoadGameFromSlot(TEXT("MainSave"), 0));
-	if (SaveInst->Upgrade == Upgrade)
+	if (SaveInst->Upgrade == Upgrade || SaveInst->CurrentMap == Upgrade)
 	{
 		MyMaterial->SetScalarParameterValue("Power", Power);
 	}
