@@ -96,7 +96,7 @@ void ADeadlySpikes::CheckPlayerDie(UPrimitiveComponent* OverlappedComponent, AAc
 	if (Player)
 	{
 		Player->CharacterDied();
-		Player->GetMesh()->AddImpulse(FVector(0.f,0.f,200.f), NAME_None, true);
+		//Player->GetMesh()->AddImpulse(FVector(0.f,0.f,200.f), NAME_None, true);
 	}
 }
 

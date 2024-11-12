@@ -45,7 +45,7 @@ void AProjectileForTurret::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActo
 	if (Player)
 	{
 		Player->CharacterDied();
-		Player->GetMesh()->AddImpulse(CollisionComp->GetForwardVector() * 400.f, NAME_None, true);
+		//Player->GetMesh()->AddImpulse(CollisionComp->GetForwardVector() * 400.f, NAME_None, true);
 	}
 	ShowDestroyVFX();
 	Destroy();
