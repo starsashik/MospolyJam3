@@ -36,6 +36,9 @@ private:
 	int Power;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh, meta = (AllowPrivateAccess = "true"))
+	bool bWaveToFinish;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh, meta = (AllowPrivateAccess = "true"))
 	int Upgrade;
 
 public:	
